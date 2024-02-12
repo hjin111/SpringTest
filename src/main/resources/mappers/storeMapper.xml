@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- xml은 기본적으로 아무 규칙이 없어서 내멋대로 태그를 구성하더라도 문법이 틀린건 아님
+	 mybatis 기반에 맞춰서 태그를 구성해야 하기 때문에 
+	 mybatis의 태그 규칙을 적용할거임.
+	 그 규칙을 정의해 놓은 파일이 따로 있음
+	 xml의 태그 규칙을 정의해 놓은 파일 => 그게 dtd 라는 파일임
+	 우리는 mybatis 프레임 워크를 활용할거기 때문에 거기서 제공 하는 dtd를 여기에 적용 시켜 주면 됨 
+ -->
+
+<!-- dtd를 포함시키는 태그 구성 / 이걸 적용하는 순가 xml 에는 태그 규칙이 만들어지는거임( 그 규칙에 맞지 않으면 에러 표시남 )-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <!-- mapper 라는 태그를 통해서 우리가 만든 메소드를 가진 repository를 연결 시켜 준다 ( repository와 mapper가 연결이 된거라고 생각하면 됨 )
+ 	  namespace 라는 속성을 통해서 연결시켜주면 됨 ( import를 못해서 패키지명까지 모두 포함해서 해당하는 인터페이스 이름을 써줘야 함 )
+ -->
+ <mapper namespace="com.jinju.spring.test.database.repository.StoreRepository">
+ <!-- id 라는 속성으로 매칭 시킬 메소드 이름을 넣어준다, 파라미터는 없으니깐 생략, 
+ 리턴 타입은 resultType 이라는 속성 이름으로 매칭시켜주면 됨 / return 타입은 리스트 였다 근데 select 결과는 리스트로 나올 확률이
+ 굉장히 높기 때문에 리스트에 대한 타입까지는 지정해주지 않아도 mybatis가 알아서 처리해줌 그래서 select의 resultType에는 한 행을 저장하기 위한 타입, 클래스를 작성해주면 됨-->
+ 	<select id="selectStoreList"
+ 	resultType="com.jinju.spring.test.database.domain.Store">
+ 		<!--  selectStoreList 메소드가 호출되었을 때 수행 될 쿼리를 여기다가 작성 -->
+ 		SELECT
+ 			`id`
+ 			, `name`
+ 			, `phoneNumber`
+ 			, `address`
+ 			, `businessNumber`
+ 			, `introduce`
+ 			, `createdAt`
+ 			, `updatedAt`
+ 		FROM
+ 			`store`
+ 	</select>
+ </mapper>
+ 
