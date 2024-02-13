@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 우리가 만든 xml에는 mybatis 프레임 워크 기반으로 동작하는 거기 때문에 xml의 태그 규칙을 
+	mybatis 에서 정의해 놓은 dtd를 통해 만들어 갈거임-->
+
+<!-- 해당 하는 dtd를 포함시키는 태그 구성 / 이걸 적용하는 순가 xml 에는 태그 규칙이 만들어지는거임( 그 규칙에 맞지 않으면 에러 표시남 )-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<!-- dtd 규칙에 따라 태그 구성 해주면 됨 / mapper xml 자체는 repository 인터페이스와 매칭 되도록 구성할거임 -->
+<mapper namespace="com.jinju.spring.test.mybatis.repository.RealEstateRepository">
+	<select id="selectRealEstate" parameterType="int"
+	resultType="com.jinju.spring.test.mybatis.domain.RealEstate">
+		SELECT
+			`id`
+			, `realtorId`
+			, `address`
+			, `area`
+			, `type`
+			, `price`
+			, `rentPrice`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`real_estate`
+		WHERE
+			`id` = #{id}
+	</select>
+	
+	<!-- 리턴 타입은 리스트는 select에서 항상 있을 수 있는 형태이기 때문에 리스트인거를 명시 할 필요는 없다 -->
+	<select id="selectRealEstateListByRentPrice" parameterType="int"
+	resultType="com.jinju.spring.test.mybatis.domain.RealEstate">
+		SELECT
+			`id`
+			, `realtorId`
+			, `address`
+			, `area`
+			, `type`
+			, `price`
+			, `rentPrice`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`real_estate`
+		WHERE
+			<![CDATA[`rentPrice` < #{rent}]]>
+			<!-- CDATA 라는게 머냐면 xml 안에서 xml 문법 으로 사용 되지 않을 부분을 이걸로 묶어 주면 이 안에 포함 될 녀석들은 xml 문법으로 적용이 안돼서 그거 그대로 표현 된다 -->
+	</select>
+	<select id="selectRealEstateListByAreaAndPrice" parameterType="int"
+	resultType="com.jinju.spring.test.mybatis.domain.RealEstate">
+		SELECT
+			`id`
+			, `realtorId`
+			, `address`
+			, `area`
+			, `type`
+			, `price`
+			, `rentPrice`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`real_estate`
+		WHERE
+			<!-- #{area} 이거는 이 repository 메소드에 전달 된 값을 파람 어노테이션을 통해 매칭 시켜 놓은 거임 -->
+			<![CDATA[
+			`type` = '매매'
+			AND `area` >= #{area} 
+			AND `price` <= #{price}]]>
+	</select>
+</mapper>

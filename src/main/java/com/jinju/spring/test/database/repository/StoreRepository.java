@@ -23,5 +23,5 @@ public interface StoreRepository {
 	// 원래 인터페이스로 정의 된 메소드는 클래스를 통해 implements 구현해야 된다
 	// 그런데 지금은 mybatis 기반으로 쿼리를 동작시키기 위해서 만든 메소드이기 때문에 mybatis 사용 법에 따라 우리가 설정에 정의한 경로와 파일 규칙(mybatis.mapper-locations=mappers/*Mapper.xml)으로 xml 파일을 만들고 해당하는 이 인터페이스와 매핑해서 기능이 수행되도록 만들어주면 된다.
 	// resources 아래 쪽에 mappers라는 패키지 만들고 그 안에 mapper.xml로 끝나는 xml 파일로 쿼리를 작성할 파일 만들기!!
-	
+	 
 }
