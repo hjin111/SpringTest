@@ -12,7 +12,7 @@ public class RealEstate {
 	private int area;
 	private String type;
 	private int price;
-	private int rentPrice;
+	private Integer rentPrice; // int 에서 Integer로 바꾸면 NULL도 저장 될 수 있는 형태를 다루기 위한 클래스이기 때문에 NULL도 관리 하기 위한 타입으로 지정해줘야 함
 	private Date createdAt;
 	private Date updatedAt;
 	public int getId() {
@@ -53,10 +53,10 @@ public class RealEstate {
 	public void setPrice(int price) {
 		this.price = price;
 	}
-	public int getRentPrice() {
+	public Integer getRentPrice() {
 		return rentPrice;
 	}
-	public void setRentPrice(int rentPrice) {
+	public void setRentPrice(Integer rentPrice) {
 		this.rentPrice = rentPrice;
 	}
 	public Date getCreatedAt() {
@@ -72,6 +72,4 @@ public class RealEstate {
 		this.updatedAt = updatedAt;
 	}
 	
-	
-
 }

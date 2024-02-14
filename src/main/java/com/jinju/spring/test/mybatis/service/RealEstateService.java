@@ -54,4 +54,28 @@ public class RealEstateService {
 		// 만들어져 있는 메소드는 서로 연관이 없다. 다만 공용으로 사용되는 멤버변수는 있을 수 있다.
 		
 	}
+	
+	public int addRealEstateByObject(RealEstate realEstate) {
+		// 저장 한다 라는 개념이 데이터 베이스 테이블의 insert 하는 과정 이다. => service가 할 일이 아님
+		// service는 테이블을 직접 쿼리를 통해서 조작하는 과정인 repository 메소드를 통해서 기능을 수행 해야 됨
+		// service가 호출할 메소드는 realEstate 와 관련되어 있는 repository 인터페이스를 통해 저리하면 됨
+		// insertRealEstateByObject는 mybatis 에 의해서 실행된 행의 갯수가 리턴이 됨
+		int count = realEstateRepository.insertRealEstateByObject(realEstate);
+		
+		return count;
+	}
+	
+	public int addRealEstate(
+			int realtorId
+			, String address
+			, int area
+			, String type
+			, int price
+			, int rentPrice) {
+		
+		// 파라미터 정보를 기반으로 한 행의 정보를 저장하면 되는데
+		// 테이블 대상으로 기능 수행이 필요함 => service 기능이 아니고 테이블 관련된건 repository 를 통해서 기능 수행 하기
+		int count = realEstateRepository.insertRealEstate(realtorId, address, area, type, price, rentPrice);
+		return count; // 실행된 행의 갯수 return
+	}
 }

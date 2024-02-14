@@ -27,4 +27,23 @@ public interface RealEstateRepository {
 	public List<RealEstate> selectRealEstateListByAreaAndPrice(
 			@Param("area") int area
 			,@Param("price") int price);
+	
+	// realEstate 객체를 통해서 한 행을 저장 하는 기능, 한 행을 insert 하는 기능을 만들어야 함 그래야 service 에서 그 기능을 활요할 수 있음
+	// insert 쿼리를 수행 하면 실행된 행의 갯수가 리턴 되기 때문에 그 사용법에 맞춰서 return 타입을 int로 지정 
+	// 그리고 나서 파리미터로 전달 되는 realEstate 이 객체 안에 들어 있는 멤버 변수 값을 기반으로 insert 쿼리를 완성 시킬 거임
+	// 그러면 객체를 기반으로 mapper.xml의 값을 사용할 때는 Param() 어노테이션 굳이 넣을 필요 없음 이거와 관련된 정보를 xml에 세팅해줄거기 때문이다.
+	// 해당 하는 메소드를 호출했을 때 실행할 쿼리는 해당 하는 메소드와 연결될 xml 태그를 통해서 수행될거임.
+	public int insertRealEstateByObject(RealEstate realEstate);
+	// 위에 메소드를 만든 이유는 service 에서 객체 형태로 한 행을 insert 하기 위한 기능이 필요해서 만듬
+	
+	// 이 메소드를 통해서 수행 할 내용은 쿼리이다. 여기로 전달 된 파라미터들은 쿼리를 완성시키기 위해 필요한 데이터를 전달하는거고
+	// 쿼리는 자바 코드가 아니라 xml을 통해서 만들어짐 그래서 변수 자체를 그대로 전달된다고 생각하지 말고 변수에 값을 사용하기 위한 키워드가 매칭이 되서 그 매칭된 키워드를 통해 쿼리가 만들어진다. 
+	public int insertRealEstate(
+			@Param("realtorId") int realtorId // Param 어노테이션을 통해 매칭 할 키워드를 넣어줘야 함
+			, @Param("address") String address
+			, @Param("area") int area
+			, @Param("type") String type
+			, @Param("price") int price
+			, @Param("rentPrice") int rentPrice);
+			
 }

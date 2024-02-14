@@ -67,4 +67,65 @@
 			AND `area` >= #{area} 
 			AND `price` <= #{price}]]>
 	</select>
+	<insert id="insertRealEstateByObject" 
+	parameterType="com.jinju.spring.test.mybatis.domain.RealEstate">
+	<!-- insert에서 resultType은 int로 고정 되어 있음 도리어 건들면 안됨 그래서 속성 자체가 없음 -->	
+		INSERT INTO
+			`real_estate`
+		(
+			 `realtorId`
+			, `address`
+			, `area`
+			, `type`
+			, `price`
+			, `rentPrice`	
+		)
+		VALUE
+		(
+			<!--
+				위에 나열한 컬럼에 매칭 되는 값들이 들어 가면 되는데 
+				이 값들은 여기서 직접 입려하는게 아니라 지금 호출되는 insertRealEstateByObject 이 메소드로 
+				전달 되는 값으로 매칭 시켜서 호출한 쪽에서 원하는 값이 저장 될 수 있도록 할거다
+				그런데 그 파라미터 형태가 뭐다?? 클래스임 RealEstate 클래스에 있는 멤버 변수에 저장된 값을 쿼리를 완성시키는데 사용할 수 있다.
+				#{}사이에 파라미터 타입에 명시한 클래스의 멤버 변수 이름을 지정해주면 전달된 객체에 멤버 변수 값이 이 쿼리를 완성 시킴
+				괄호 사이에 들어 있는 값 정확한 의미는 이 파라미터 타입에 대응되는 RealEstate클래스의 멤버 변수 이름이다.
+			-->
+			#{realtorId}
+			, #{address}
+			, #{area}
+			, #{type}
+			, #{price}
+			, #{rentPrice}
+		)
+		
+	</insert>
+	<!-- parameterType 여러개였고 타입이 서로 다 달랐다 그러면 map으로 하기 
+	내부적으로 해당 하는 파라미터들을 map으로 구성해서 key, value 형태로 매칭해서 여기서 쓸 수 있도록 
+	구성해 주는 거고 우리는 그걸 알고 메소드에 타입이 여러개면 map 이렇게 생각해주면 됨 
+	-->
+	<insert id="insertRealEstate" parameterType="map">
+		INSERT INTO
+			`real_estate`
+		(
+			 `realtorId`
+			, `address`
+			, `area`
+			, `type`
+			, `price`
+			, `rentPrice`	
+		)
+		VALUE
+		(
+			<!-- 메소드에서 파라미터로 전달 받은 값이 여기에 채워져야 함 
+				 #{} 안에 들어갈 키워드는 메소드에 Param 어노테이션에 매칭된 키워드를 통해서 여기에 매칭된 변수값이 이 위치에 들어감
+			-->
+			#{realtorId}
+			, #{address}
+			, #{area}
+			, #{type}
+			, #{price}
+			, #{rentPrice}
+			
+		)
+	</insert>
 </mapper>

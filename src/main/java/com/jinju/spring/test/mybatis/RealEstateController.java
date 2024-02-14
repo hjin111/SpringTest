@@ -62,5 +62,51 @@ public class RealEstateController {
 			return realEstateList;
 	}
 	
-
+	// controller 메소드의 역할은 request 와 response 처리
+	// 일단 요청하는 부분 부터 시작할거니깐 request 와 관련된 부분 부터 정리 하기
+	@RequestMapping("/insert/1")
+	@ResponseBody
+	public String createRealEstateByObject() {
+		
+		// 주어진 항목을 객체 형태로 insert 하기
+		// realtorId : 3 address : 푸르지용 리버 303동 1104호 area : 89 type : 매매 price : 100000
+		// 위에 값들을 저장 해서 하나로 묶을 수 있는 클래스가 있으면 그 클래스 기반으로 객체 생성 하면 됨
+		// 우리가 기존에 RealEstate 를 조회 해서 한 행의 정보를 저장 하기 위한 클래스를 Entity 클래스 형태로 만들어 놓았으니 이거 활용 하기
+		
+		// 해당 하는 클래스로 객체 생성 해서 위에 주어진 값들을 setter 를 통해서 값을 채우기
+		RealEstate realEstate = new RealEstate(); // 객체 생성 했으면 멤버 변수를 저장 할수 있는 공간 까지 확보 됨 그러니 그 멤버 변수 안에 주어진 값들을 채워 넣기
+		realEstate.setRealtorId(3);
+		realEstate.setAddress("푸르지용 리버 303동 1104호");
+		realEstate.setArea(89);
+		realEstate.setType("매매");
+		realEstate.setPrice(100000);
+		
+		// realEstate 이 객체 안에 들어 있는 정보들을 그에 대응 되는 컬럼에 저장 할 수 있도록할거다.
+		// 데이터를 저장하는 기능은 controller가 하는 일이 아님
+		// controller는 service 에 있는 메소드를 통해서 기능을 수행시켜서 필요한 기능을 처리할거임
+		// controller에 realEstate 객체를 전달 받아서 저장 하기 위한 기능을 메소드를 통해서 수행 시켜 볼거임
+		// 매몰과 관련된 로직 부분을 처리 하는 realEstate service 클래스가 이미 있고 여기 안에 realEstate 객체를 통해서 저장 하는 기능이 없으니 만들자
+	
+		int count = realEstateService.addRealEstateByObject(realEstate);
+		
+		return "입력 성공 : " + count;
+	}
+	
+	@RequestMapping("/insert/2") // url 매핑
+	@ResponseBody
+	public String createRealEstate(@RequestParam("realtorId") int realtorId) {
+		// 이 파라미터 변수에 저장될 값이 뭐다?? 요청하는 쪽에서 전달한 realtorId가 될거 같음
+		// 그러면 realtorId 이 값에 저장될 파라미터의 이름을 매칭 시켜 줘야 그 파라미터로 저장된 값이 realtorId 이 변수에 저장 된다.
+		
+		// realtorId 데이터랑 주어진 데이터를 하나하나 따로 전달해서 한 행의 정보를 저장하고자 한다
+//		address : 썅떼빌리버 오피스텔 814호
+//		area : 45
+//		type : 월세
+//		price : 100000
+//		rentPrice : 120
+		int count = realEstateService.addRealEstate(realtorId, "썅떼빌리버 오피스텔 814호", 45, "월세", 100000, 120);
+		
+		return "입력 성공 : " + count;
+	}
+	
 }
