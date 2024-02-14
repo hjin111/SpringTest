@@ -109,4 +109,26 @@ public class RealEstateController {
 		return "입력 성공 : " + count;
 	}
 	
+	@RequestMapping("/update")
+	@ResponseBody // 특정한 형태의 문자열을 responsebody로 채우기 위해서 리턴 타입 string 오고 responsebody 어노테이션을 붙여서 원하는 형태 문자열을 리턴해주기
+	public String updateRealEstate() {
+		// id가 23인 매몰 정보에 type을 전세, 보증금 70000으로 변경
+		// 값을 수정하는 기능을 수행해야 하는데 controller 역할이 아님
+		// 이 기능을 수행 하기 위한 service 메소드 호출해 줘야 함
+		int count = realEstateService.updateRealEstate(23, "전세", 70000);
+		
+		return "수정 성공 : " + count;
+	}
+	
+	@RequestMapping("/delete")
+	@ResponseBody // 문자열을 responsebody에 담기 
+	public String deleteRealEstate(@RequestParam("id") int id) { // id 이 변수 값에 저장 될 값이 requestParameter이기 때문에 특정한 이름에 매칭 해서 id 변수에 값이 저장이 되야 된다.  
+		// 전달 받은 id 와 일치 하는 데이터를 삭제 해야 하니깐 삭제 기능이 수행되야 함 
+		// 삭제 기능이 수행 되기 위해서는 service 메소드를 통해서 삭제 해야 함
+		// service에 id를 전달 받아서 그에 대응 되는 행을 삭제해주는 기능을 호출
+		int count = realEstateService.deleteRealEstate(id);
+		return "삭제 성공 : " + count;
+		
+	}
+	
 }

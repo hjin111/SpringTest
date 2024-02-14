@@ -45,5 +45,16 @@ public interface RealEstateRepository {
 			, @Param("type") String type
 			, @Param("price") int price
 			, @Param("rentPrice") int rentPrice);
-			
+	
+	// 전달 받은 값을 기반으로 쿼리를 만들기 위한거고 전달 받은 값은 xml에서 사용해야 하기 때문에
+	// @Param 어노테이션을 통해 키워드로 매칭 시켜 주기
+	public int updateRealEstate(
+			@Param("id") int id // 같아야 될 이유는 없고 뜻이 같다 보니 키워드와 파라미터 변수 이름이 같아질 가능성이 높을 뿐
+			, @Param("type") String type
+			, @Param("price") int price);
+	
+	// 전달 받은 id는 delete 쿼리의 조건 부분에 쿼리를 완성 시키는데 들어가야 함
+	// 그래서 id 변수 값이 xml에서 특정 키워드로 사용될 수 있도록 @Param 어노테이션을 매칭 시켜 줌
+	public int deleteRealEstate(@Param("id") int id);
+	
 }

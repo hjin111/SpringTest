@@ -78,4 +78,24 @@ public class RealEstateService {
 		int count = realEstateRepository.insertRealEstate(realtorId, address, area, type, price, rentPrice);
 		return count; // 실행된 행의 갯수 return
 	}
+	
+	// id가 23인 매몰 정보에 type을 전세, 보증금 70000으로 변경
+	// 그런데 정해진 id와 정해진 type 과 정해진 보증금으로 바꾸는 기능은 너무 범용성이 떨어짐 보증금만 살짝 바꿔도 새로 만들어야 함
+	// 그래서 모두 다 범용적으로 만들기는 힘들고
+	// 특정 id의 매몰 정보에 전달 받은 type과 price 값으로 수정하는 기능
+	// controller가 원하는 기능은 딱 (id가 23인 매몰 정보에 type을 전세, 보증금 70000으로 변경) 이거임 근데 이것만 수행 하는걸로 만들면 보증금만 조금 바껴도 바로 새로운 메소드 만들어야 함 
+	// 근데 이렇게 // 특정 id의 매몰 정보에 전달 받은 type과 price 값으로 수정하는 기능으로 하면 전에 것도 처리 가능 하고 나중에 타입이나 보증금을 수정하는 경우가 생긴다면 다시 또 이 메소드를 재활용 하는 경우가 있다
+	public int updateRealEstate(int id, String type, int price){
+		int count = realEstateRepository.updateRealEstate(id, type, price);
+		return count;
+	}
+	
+	public int deleteRealEstate(int id) {
+		// 전달 받은 id로 실제 한 행을 삭제 할거임
+		// 기능 수행은 테이블에 쿼리를 수행함으로써 진행 되는 거임 아무래도 repository의 도움을 받아야 함
+		// id를 전달 받아서 그 id에 매칭 되는 한 행을 삭제 해주는 쿼리를 수행해주는 메소드를 호출
+		int count = realEstateRepository.deleteRealEstate(id);
+		
+		return count;
+	}
 }
