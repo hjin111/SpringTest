@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 해당 하는 dtd를 포함시키는 태그 구성 / 이걸 적용하는 순가 xml 에는 태그 규칙이 만들어지는거임( 그 규칙에 맞지 않으면 에러 표시남 )-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<!-- mybatis 기반으로 xml을 작성 해야 되니깐 xml 태그에 대한 규칙 dtd를 mybatis에서 제공하는 걸로 붙여서 
+그 태그 문법에 맞춰서 mapper 태그를 통해 namespace 속성으로 연동할 repository에 패키지 이름까지 모두 포함 해서 작성 -->
+
+<mapper namespace="com.jinju.spring.test.jsp.repository.SellerRepository">
+	
+	<insert id="insertSeller" parameterType="map"><!-- resultType은 insert이기 때문에 int로 고정 되어 있음 -->
+		INSERT INTO
+			`seller`
+		(
+			`nickname`
+			, `temperature`
+			, `profileImage`
+		)
+		VALUE
+		(
+			#{nickname}
+			, #{temperature}
+			, #{profileImage}
+		)
+		
+	</insert>
+	
+	<select id="selectLastSeller"
+	resultType="com.jinju.spring.test.jsp.domain.Seller">
+		SELECT 
+			`id`
+			, `nickname`
+			, `temperature`
+			, `profileImage`
+			, `createdAt`
+			, `updatedAt`
+		FROM
+			`seller`
+		ORDER BY 
+			`id` DESC
+		LIMIT
+			1
+	</select>
+	
+</mapper>
