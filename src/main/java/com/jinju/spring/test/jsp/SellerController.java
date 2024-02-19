@@ -52,16 +52,49 @@ public class SellerController {
 	}
 	
 	@GetMapping("/info")
-	public String sellerInfo(Model model) {
+	public String sellerInfo(
+			@RequestParam(value="id", required=false) Integer id // null 도 저장 가능한 형태로 파라미터를 붙여야 한다. 
+			, Model model) {
 		
-		Seller seller = sellerService.getLastSeller(); // 리턴하는 jsp 안에 가장 최근에 등록된 판매자 정보를 채우기 위해서 해당 jsp를 리턴하는 메소드에서 필요한 정보를 얻어옴 
+		Seller seller = null;
+		// id가 전달되면, 일치하는 판매자 정보를 표현
+		if(id != null) {
+			
+			seller = sellerService.getSeller(id);
+			// Seller seller = sellerService.getSeller(id); // 지역 변수라 여기서 밖에 쓸 수 없음
+			// model.addAttribute("seller", seller);
+		} else { // id가 전달되지 않으면, 가장 최근 등록된 판매자 정보 보여주기
+			
+			seller = sellerService.getSeller(id);
+			// Seller seller = sellerService.getLastSeller(); // 리턴하는 jsp 안에 가장 최근에 등록된 판매자 정보를 채우기 위해서 해당 jsp를 리턴하는 메소드에서 필요한 정보를 얻어옴 
+			
+			// seller 라는 객체 정보를 jsp에서 쓸 수 있도록 해주는 세팅 해주기 
+			// model.addAttribute("seller", seller); // model 이라고 하는 객체에 조회해서 얻어온 정보를 seller 라는 이름으로 객체로 저장했습니다.
+			// 왜? model 에다가 저장하면 jsp 에서 그 값을 저장한 key 이름으로 꺼내쓸 수 있기 때문이다.
 		
-		// seller 라는 객체 정보를 jsp에서 쓸 수 있도록 해주는 세팅 해주기 
-		model.addAttribute("seller", seller); // model 이라고 하는 객체에 조회해서 얻어온 정보를 seller 라는 이름으로 객체로 저장했습니다.
-											  // 왜? model 에다가 저장하면 jsp 에서 그 값을 저장한 key 이름으로 꺼내쓸 수 있기 때문이다.
+		}
 		
+		model.addAttribute("seller", seller);
 		// jsp에 데이터를 채우고 싶으면 jsp 경로를 리턴하는 Controller 메소드에서 그 데이터 정보를 얻어 온다.
 		return "jsp/sellerInfo";
+	}
+	
+	// 전달 받은 값은 일치하는 하나의 행을 표현 하기 위한 거니깐 id를 전달 받아야 함
+	// 어떤 이름으로 전달 된 파라미터 값을 id 변수에 저장할지를 어노테이션을 통해서 표현해 줘야 함
+	@GetMapping("/info/id")
+	public String sellerInfoById(
+			@RequestParam("id") int id
+			, Model model){
+		
+		// jsp 에서 사용 할 데이터를 얻어 와서 model 에다가 추가해 줘야 함
+		// jsp 에서 사용 할 데이터를 조회 하자 => 그 기준은 request Parameter를 전달 받은 id 와 일치하는 판매자 정보 조회 해올거다.( Controller가 할 일이 아님 )
+		// 해당하는 id로 일치하는 판매자 정보를 얻어오는 기능을 Controller 는 service를 통해서 쓴다. ( Service에 있는 메소드를 호출해서 기능을 수행 한다. )
+		Seller seller = sellerService.getSeller(id);
+		// getSeller 메소드를 만든 이유는 Controller 에서 파라미터를 전달 받은 id 와 일치하는 판매자 정보를 리턴하는 jsp 에서 사용할려고 하는데 그러려면 jsp 인걸 리턴하는 메소드 안에서 필요한 데이터를 조회해 와야 함 그래서 service에서 getSeller 라는 메소드를 만들었음
+		
+		model.addAttribute("seller", seller); // jsp 파일에 직접 전달 할 수 없어서 model 객체(매개체)가 필요하다.
+											  // 스프링에서는 Controller 어노테이션 붙어 있는 클래스 메소드에서는 필요에 따라 model 이라는 객체를 파라미터로 추가해주면 알아서 객체를 전달해 줌.
+		return "jsp/sellerInfo"; // 기존에 만들어서 써 봤던 jsp 파일 ( jsp 재사용 )
 	}
 	
 }

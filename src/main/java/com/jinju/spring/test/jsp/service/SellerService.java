@@ -28,4 +28,14 @@ public class SellerService {
 		
 		return seller;
 	}
+	
+	// id 를 기반으로 조회해서 해당하는 판매자 정보를 리턴해주는 메소드
+	public Seller getSeller(int id) { // id 가 일치하는건 딱 한 행이고 한 행의 데이터를 저장 하기 위해서는 Entity 클래스 만들어놨으니깐 하나의 객체만 리턴하면 되기 때문에 리턴 타입 Seller로 해주기 
+		
+		// id 기반으로 seller 정보를 조회하는건 select 쿼리를 통해서 조회해 와야 함. => service가 repository 메소드를 통해서 해당 기능을 수행 해야 함
+		Seller seller = sellerRepository.selectSeller(id); // Entity 클래스로 만들어진 객체를 하나 mybatis가 직접 객체 생성해서 값까지 채워서 리턴해준다
+		
+		return seller;
+
+	}
 }
