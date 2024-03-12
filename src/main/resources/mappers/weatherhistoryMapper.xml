@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- dtd를 포함시키는 태그 구성 / 이걸 적용하는 순가 xml 에는 태그 규칙이 만들어지는거임( 그 규칙에 맞지 않으면 에러 표시남 )-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.jinju.spring.test.jstl.repository.WeatherHistoryRepository">
+ 
+ 	<select id="selectWeatherHistory"
+ 	resultType="com.jinju.spring.test.jstl.domain.Weather">
+ 	
+ 		SELECT
+ 			`id`
+ 			, `weather`
+ 			, `date`
+ 			, `temperatures`
+ 			, `precipitation`
+ 			, `microDust`
+ 			, `windSpeed`
+ 			, `createdAt`
+ 			, `updatedAt`
+ 		FROM
+ 			`weatherhistory`
+ 			
+ 	</select>
+ 	
+ 	<insert id="insertWeather" parameterType="map">
+		INSERT INTO 
+			`weatherhistory`
+		(
+			`weather`
+			, `date`
+			, `temperatures`
+			, `precipitation`
+			, `microDust`
+			, `windSpeed`
+		)
+		VALUE 
+		(
+			#{weather}
+			, #{date}
+			, #{temperatures}
+			, #{precipitation}
+			, #{microDust}
+			, #{windSpeed}	
+		)
+	
+	
+	</insert>
+	
+	<insert id="insertWeatherByObject" 
+	parameterType="com.jinju.spring.test.jstl.domain.Weather">
+		INSERT INTO 
+			`weatherhistory`
+		(
+			`weather`
+			, `date`
+			, `temperatures`
+			, `precipitation`
+			, `microDust`
+			, `windSpeed`
+		)
+		VALUE 
+		(
+			#{weather}
+			, #{date}
+			, #{temperatures}
+			, #{precipitation}
+			, #{microDust}
+			, #{windSpeed}
+		)
+	</insert>
+	
+ </mapper>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 해당 하는 dtd를 포함시키는 태그 구성 / 이걸 적용하는 순가 xml 에는 태그 규칙이 만들어지는거임( 그 규칙에 맞지 않으면 에러 표시남 )-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="com.jinju.spring.test.jsp.repository.RealtorRepository">
+ 	
+ 	<insert id="insertRealtor" 
+ 	parameterType="com.jinju.spring.test.jsp.domain.Realtor"
+ 	useGeneratedKeys="true" keyProperty="id">
+ 		<!-- 우리는 insert만 하고 끝나는게 아니라 insert 이후에 insert 된 그 행에서 insert 되자마자 만들어지는 그 primary key를 가지고 와야 한다.
+ 			 근데 원래대로 라면 insert 하고나서 가장 마지막에 select 된 그 행을 가져와서 pk를 확인해야 되지만 이 과정이 빈번하게 사용되니깐 쉽게 활용할수 있도록 기능을 mybatis 에서 만들어 놓은 거임. 
+ 			 그걸 활용하는거임 어떻게?? useGeneratedKeys 라고 하는 속성을 true로 잡아준다. 그리고 또 하나 
+ 			 keyProperty 라는 속성에 primary key에 해당하는 컬럼 이름인 id 라는 값을 주면 단순하게 insert 쿼리만 수행 되는게 아니라 
+ 			 insert 된 이후에 지금 방금 insert된 행에 primary key를 얻어준다. 근데 그 얻어진 값은 어떤 식으로 저장이 되느냐 전달된 parameter 객체의 해당 하는 컬럼 이름과 일치하는 멤버 변수의 값을 채워 넣어 줄거임 
+ 			 그래서 객체로 전달하는거임 객체로 전달 해야 insert 할 때 필요한 데이터도 전달 하고 insert한 pk를 저장할 공간도 전달하면 되니깐 이걸 하나로 뭉친 Entity 클래스로 insert 과정을 진행 하면 됨 -->
+ 		INSERT INTO
+ 			`realtor`
+ 		(	
+ 			`office`
+ 			, `phoneNumber`
+ 			, `address`
+ 			, `grade`
+ 		)
+ 		VALUE
+ 		(
+ 		<!-- 파라미터로 전달된 값을 여기다 채울거임 그런데 파라미터의 형태가 realtor 객체이다 
+ 			 해당 하는 객체의 멤버 변수 이름으로 value 안에 값을 채워 넣을 수 있다. -->
+ 			#{office}
+ 			, #{phoneNumber}
+ 			, #{address}
+ 			, #{grade}
+ 		)
+ 	</insert>
+ 	
+ </mapper>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 해당 하는 dtd를 포함시키는 태그 구성 / 이걸 적용하는 순가 xml 에는 태그 규칙이 만들어지는거임( 그 규칙에 맞지 않으면 에러 표시남 )-->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <!-- 테이블을 repository와 연결할 mapper 테이블-->
+ <mapper namespace="com.jinju.spring.test.ajax.repository.FavoriteRepository">
+ 
+ 	<select id="selectFavoirteList"
+ 	resultType="com.jinju.spring.test.ajax.domain.Favorite">
+ 		SELECT 
+ 			`id`
+ 			, `name`
+ 			, `url`
+ 			, `createdAt`
+ 			, `updatedAt`
+ 		FROM
+ 			`favorite`
+ 	</select>
+ 	
+ 	<insert id="insertFavorite" parameterType="map">
+ 		
+ 		INSERT INTO
+ 			`favorite`
+ 		(
+ 			`name`
+ 			, `url`
+ 		)
+ 		VALUE
+ 		(
+ 			#{name}
+ 			,#{url}
+ 		)
+ 		
+ 	</insert>
+ 	
+ </mapper>

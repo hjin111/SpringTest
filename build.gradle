@@ -33,6 +33,16 @@ dependencies {
 	// 라이브러리에 의존해서 프로젝트가 동작한다.
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
 	implementation group: 'org.glassfish.web', name: 'jakarta.servlet.jsp.jstl', version: '2.0.0'
+
+	// 롬복을 연동하기 위한 코드
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	
+	// JPA 의존성 라이브러리 추가
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	
+	// 쿼리 수행 과정을 로그로 표현해주는 라이브러리
+	implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
 }
 
 tasks.named('bootBuildImage') {
